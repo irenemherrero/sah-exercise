@@ -1,0 +1,16 @@
+.btn{
+    width: 130px;
+    font-family: $font-family-2;
+    font-size: $font-size-s;
+    padding: 10px;
+    color: $color-ultra-light;
+    cursor: pointer;
+    &--success{
+        background-color: $color-primary-light;
+        border-bottom: 5px solid $color-primary;
+    }
+    &--info{
+        background-color: $color-secondary;
+        border-bottom: 5px solid $color-secondary-dark;
+    }
+}

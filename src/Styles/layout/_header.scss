@@ -1,0 +1,60 @@
+.header{
+    height: 100px;
+    background-color: white;
+    @media all and(max-width: 576px){
+        height: 150px;
+    }
+    &__container{
+        padding: 30px;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        @media all and(max-width: 576px){
+            flex-direction: column;
+        }
+    }
+    &__logo{
+        position: relative;
+        @media all and(max-width: 576px){
+            margin-bottom: 20px;
+        }
+        &-title{ 
+            font-family: $font-family-2;
+            font-size: $font-size-xl;
+            z-index: 2;
+                span{
+                    font-family: $font-family-2;
+                    color: $color-secondary-light;
+                    position: relative;
+                    height: 48px;
+                    display: inline-block;
+                    background-color: black;
+                    padding: 10px;
+                    border-radius: 50%;
+                    margin: 2px;
+                }
+        }
+        &-subtitle{
+            font-size: $font-size-xs;
+            z-index: 2;
+            position: absolute;
+            right: 0;
+        }
+    }
+    &__nav{
+        ul{
+            display: flex;
+            li{
+                a{
+                    padding: 10px;
+                    cursor: pointer;
+                    @media all and(max-width: 768px){
+                        padding: 5px;
+                        font-size: $font-size-xs;
+                    }
+                }
+            }
+        }
+    }
+}
