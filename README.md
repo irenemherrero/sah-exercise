@@ -8,3 +8,7 @@ Aplicación de búsqueda de vivienda por precio (ascendente o descendente) y tip
 
 - SASS
 - React
+
+### Nota
+
+Puede que tengas problemas con CORS. Para evitarlos, puedes descargar una extensión para tu navegador. 
