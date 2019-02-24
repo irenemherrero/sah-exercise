@@ -108,7 +108,7 @@ button, select {
       margin-bottom: 20px; }
     .main__filters-subtitle {
       margin-bottom: 10px; }
-    .main__filters select {
+    .main__filters select, .main__filters input {
       margin-bottom: 15px;
       background-color: white;
       width: 100%;

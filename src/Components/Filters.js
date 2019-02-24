@@ -15,8 +15,9 @@ class Filters extends Component {
         return (
             <div className="main__filters"> 
                 <h2 className="main__filters-title">Filters:</h2>
-                    <h3 className="main__filters-subtitle">Property type:</h3>
+                    <h3 className="main__filters-subtitle">City:</h3>
                         <input value={cityFromInput} name="" id="" onChange={handleCity} onKeyPress={handleFetch}></input>
+                    <h3 className="main__filters-subtitle">Property type:</h3>
                         <select value={typeToFilter} name="" id="" onChange={handleSelectType}>
                             <option value="" defaultChecked>All</option>
                             <option value="apartments">Apartments</option>
