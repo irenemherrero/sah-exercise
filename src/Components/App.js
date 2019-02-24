@@ -35,7 +35,6 @@ class App extends Component {
   }
 
   getLocation(){
-    console.log(navigator.geolocation);
     if(navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(this.geoSuccess, this.geoError);
     } else {
@@ -142,7 +141,8 @@ class App extends Component {
     const{
       propertiesToPrint,
       typeToFilter,
-      errorInFetch
+      errorInFetch, 
+      sortPriceValue,
     }=this.state;
 
     return (
@@ -155,6 +155,7 @@ class App extends Component {
           handleSelectType={this.handleSelectType}
           typeToFilter={typeToFilter}
           errorInFetch={errorInFetch}
+          sortPriceValue={sortPriceValue}
         />
       </Fragment>
     );

@@ -13,7 +13,7 @@ class Main extends Component {
             typeToFilter,
             errorInFetch
         }=this.props;
-        
+
         return (
             <main className="main">
                 <Filters
