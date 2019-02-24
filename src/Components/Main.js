@@ -11,7 +11,10 @@ class Main extends Component {
             sortPriceValue,
             handleSelectType,
             typeToFilter,
-            errorInFetch
+            errorInFetch,
+            handleCity,
+            cityFromInput,
+            handleFetch
         }=this.props;
 
         return (
@@ -21,6 +24,9 @@ class Main extends Component {
                     sortPriceValue={sortPriceValue}
                     handleSelectType={handleSelectType}
                     typeToFilter={typeToFilter}
+                    handleCity={handleCity}
+                    cityFromInput={cityFromInput}
+                    handleFetch={handleFetch}
                 />
                 {errorInFetch === false
                     ?   <HomeList

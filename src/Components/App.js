@@ -18,6 +18,7 @@ class App extends Component {
         sortPriceValue: "ascending",
         typeToFilter: "",
         errorInFetch: false,
+        cityFromInput:"",
      }
      this.getLocation = this.getLocation.bind(this);
      this.geoSuccess = this.geoSuccess.bind(this);
@@ -26,6 +27,8 @@ class App extends Component {
      this.handleSelectPrice = this.handleSelectPrice.bind(this);
      this.handleSelectType = this.handleSelectType.bind(this);
      this.removePreviousData = this.removePreviousData.bind(this);
+     this.handleCity = this.handleCity.bind(this);
+     this.handleFetch=this.handleFetch.bind(this);
   }
   
   componentDidMount(){
@@ -65,7 +68,7 @@ class App extends Component {
   fetchData(){
     console.log(this.state.typeToFilter);
     this.removePreviousData();
-    fetch(`https://www.spotahome.com/api/public/listings/search/markers/${citySearch || 'madrid'}?type[]=${this.state.typeToFilter}`)
+    fetch(`https://www.spotahome.com/api/public/listings/search/markers/${this.state.cityFromInput || 'madrid'}?type[]=${this.state.typeToFilter}`)
     .then(response => response.json())
     .then(json => {
 
@@ -136,6 +139,20 @@ class App extends Component {
     fetchResultsDesc = [];
   }
 
+  //Get city from input
+
+  handleCity(e){
+    this.setState({
+      cityFromInput: e.target.value.toLowerCase(),
+    })
+  }
+
+  handleFetch(e){
+    if(e.key === "Enter"){
+      this.fetchData();
+    }
+  }
+
   render() {
      
     const{
@@ -143,6 +160,7 @@ class App extends Component {
       typeToFilter,
       errorInFetch, 
       sortPriceValue,
+      cityFromInput
     }=this.state;
 
     return (
@@ -156,6 +174,9 @@ class App extends Component {
           typeToFilter={typeToFilter}
           errorInFetch={errorInFetch}
           sortPriceValue={sortPriceValue}
+          handleCity={this.handleCity}
+          cityFromInput={cityFromInput}
+          handleFetch={this.handleFetch}
         />
       </Fragment>
     );
