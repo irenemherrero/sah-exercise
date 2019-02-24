@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Header from './Header';
 import Main from './Main';
 
-const numberResults = 30;
+const numberResults = 50;
 let fetchResults = [];
 let fetchResultsDesc = [];
 let citySearch;
@@ -18,6 +18,7 @@ class App extends Component {
         sortPriceValue: "ascending",
         typeToFilter: "",
         errorInFetch: false,
+        noResults: false,
         cityFromInput:"",
      }
      this.getLocation = this.getLocation.bind(this);
@@ -73,35 +74,43 @@ class App extends Component {
     .then(json => {
 
       let jsonResults = json.data;
+        if(jsonResults.length > 0){
+          
+          for(var i = 0; i < numberResults; i++){
+            
+            fetch(`https://spotahome.com/api/public/listings/search/homecards_ids?ids%5B%5D=${jsonResults[i].id}&ids%5B%5D=${jsonResults[i].id}`)
+            .then(response => response.json())
+            .then(json => {
+              fetchResults.push(json.data.homecards[0]);
 
-      for(var i = 0; i < numberResults; i++){
-        
-        fetch(`https://spotahome.com/api/public/listings/search/homecards_ids?ids%5B%5D=${jsonResults[i].id}&ids%5B%5D=${jsonResults[i].id}`)
-        .then(response => response.json())
-        .then(json => {
-          fetchResults.push(json.data.homecards[0]);
+              fetchResults.sort((a, b) =>{
+                return a.pricePerMonth - b.pricePerMonth;
+              });
 
-          fetchResults.sort((a, b) =>{
-            return a.pricePerMonth - b.pricePerMonth;
-          });
+              fetchResultsDesc = [...fetchResults];
 
-          fetchResultsDesc = [...fetchResults];
-
-          fetchResultsDesc.sort((b, a) =>{
-            return a.pricePerMonth - b.pricePerMonth;
-          });
-
+              fetchResultsDesc.sort((b, a) =>{
+                return a.pricePerMonth - b.pricePerMonth;
+              });
+              this.setState({
+                propertiesToPrint: this.state.sortPriceValue === 'descending' ? fetchResultsDesc : fetchResults,
+                propertiesFetch: fetchResults,
+                propertiesPriceAsc: fetchResults,
+                propertiesPriceDesc: fetchResultsDesc,
+                noResults: false,
+                errorInFetch: false,
+              })
+            })
+            .catch(() => this.setState({
+              errorInFetch: true,
+            }));
+          }
+        } else {
+          console.log('0 resultados');
           this.setState({
-            propertiesToPrint: this.state.sortPriceValue === 'descending' ? fetchResultsDesc : fetchResults,
-            propertiesFetch: fetchResults,
-            propertiesPriceAsc: fetchResults,
-            propertiesPriceDesc: fetchResultsDesc,
+            noResults: true,
           })
-        })
-        .catch(() => this.setState({
-          errorInFetch: true,
-        }));
-      }
+        }
     })
     .catch(() => this.setState({
       errorInFetch: true,
@@ -147,6 +156,8 @@ class App extends Component {
     })
   }
 
+  //Handle city search with enter press
+
   handleFetch(e){
     if(e.key === "Enter"){
       this.fetchData();
@@ -160,7 +171,8 @@ class App extends Component {
       typeToFilter,
       errorInFetch, 
       sortPriceValue,
-      cityFromInput
+      cityFromInput,
+      noResults,
     }=this.state;
 
     return (
@@ -177,6 +189,7 @@ class App extends Component {
           handleCity={this.handleCity}
           cityFromInput={cityFromInput}
           handleFetch={this.handleFetch}
+          noResults={noResults}
         />
       </Fragment>
     );
