@@ -68,7 +68,7 @@ class App extends Component {
   fetchData(){
     console.log(this.state.typeToFilter);
     this.removePreviousData();
-    fetch(`https://www.spotahome.com/api/public/listings/search/markers/${this.state.cityFromInput || 'madrid'}?type[]=${this.state.typeToFilter}`)
+    fetch(`https://www.spotahome.com/api/public/listings/search/markers/${ this.state.cityFromInput || citySearch || 'madrid'}?type[]=${this.state.typeToFilter}`)
     .then(response => response.json())
     .then(json => {
 
