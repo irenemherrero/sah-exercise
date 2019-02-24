@@ -35,10 +35,12 @@ class App extends Component {
   }
 
   getLocation(){
+    console.log(navigator.geolocation);
     if(navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(this.geoSuccess, this.geoError);
     } else {
         alert("Geolocation is not supported by this browser.");
+        this.fetchData();
     }
   }
 
@@ -47,24 +49,27 @@ class App extends Component {
     let lng = position.coords.longitude;
     fetch(`https://nominatim.openstreetmap.org/reverse?format=json&accept-language=es&lat=${lat}&lon=${lng}&zoom=10&addressdetails=1`)
     .then(response => response.json())
-    .then(json => citySearch === json.address.city.toLowerCase())
+    .then(json => citySearch = json.address.city.toLowerCase())
     .then(()=> this.fetchData())
-    .catch(error => console.log('Error: ' + error));
+    .catch(error => {
+      console.log('Error: ' + error)
+      this.fetchData()});
   }
 
   geoError() {
     alert("Geocoder failed.");
+    this.fetchData();
   }
 
   //Get data from fetch + save arrays of properties to print.
 
-  fetchData(value){
+  fetchData(){
+    console.log(this.state.typeToFilter);
     this.removePreviousData();
-
-    fetch(`https://www.spotahome.com/api/public/listings/search/markers/${citySearch || 'madrid'}${!!value?`?type[]=${this.state.typeToFilter}`: ''}`)
+    fetch(`https://www.spotahome.com/api/public/listings/search/markers/${citySearch || 'madrid'}?type[]=${this.state.typeToFilter}`)
     .then(response => response.json())
     .then(json => {
-      
+
       let jsonResults = json.data;
 
       for(var i = 0; i < numberResults; i++){
@@ -122,7 +127,7 @@ class App extends Component {
     let value = e.target.value;
     this.setState({
       typeToFilter: value,
-    }, this.fetchData(value))
+    }, this.fetchData)
   }
 
   //Remove previous data when new fetch
