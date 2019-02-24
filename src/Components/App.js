@@ -18,6 +18,7 @@ class App extends Component {
         sortPriceValue: "ascending",
         typeToFilter: "",
         errorInFetch: false,
+        isNew:"",
      }
      this.getLocation = this.getLocation.bind(this);
      this.geoSuccess = this.geoSuccess.bind(this);
@@ -26,6 +27,8 @@ class App extends Component {
      this.handleSelectPrice = this.handleSelectPrice.bind(this);
      this.handleSelectType = this.handleSelectType.bind(this);
      this.removePreviousData = this.removePreviousData.bind(this);
+     this.handleSelectNew = this.handleSelectNew.bind(this);
+     this.removePreviousFilter = this.removePreviousFilter.bind(this);
   }
   
   componentDidMount(){
@@ -70,12 +73,12 @@ class App extends Component {
     .then(json => {
 
       let jsonResults = json.data;
-
       for(var i = 0; i < numberResults; i++){
         
         fetch(`https://spotahome.com/api/public/listings/search/homecards_ids?ids%5B%5D=${jsonResults[i].id}&ids%5B%5D=${jsonResults[i].id}`)
         .then(response => response.json())
         .then(json => {
+
           fetchResults.push(json.data.homecards[0]);
 
           fetchResults.sort((a, b) =>{
@@ -136,6 +139,41 @@ class App extends Component {
     fetchResultsDesc = [];
   }
 
+  //Handle new or not filter
+
+  handleSelectNew(e){
+    this.removePreviousFilter();
+    console.log(this.state.propertiesToPrint);
+    if(e.target.value === "true"){
+      console.log('holi');
+      this.setState({
+        isNew: true,
+        propertiesToPrint: this.state.propertiesToPrint.filter(property => {
+          return property.isNew === true
+        },()=> console.log(this.state))
+      });
+    } else if(e.target.value === "false") {
+      console.log('adios');
+      this.setState({
+        isNew: false,
+        propertiesToPrint: this.state.propertiesToPrint.filter(property => {
+          return property.isNew === false
+        },()=> console.log(this.state))
+      });
+    } else {
+      this.setState({
+        isNew: "",
+        propertiesToPrint: this.state.sortPriceValue === "decending" ? this.state.propertiesPriceDesc : this.state.propertiesPriceAsc,
+      });
+    }
+  }
+
+  removePreviousFilter(){
+    this.setState({
+      propertiesToPrint: this.state.sortPriceValue === "decending" ? this.state.propertiesPriceDesc : this.state.propertiesPriceAsc,
+    });
+  }
+
   render() {
      
     const{
@@ -143,6 +181,7 @@ class App extends Component {
       typeToFilter,
       errorInFetch, 
       sortPriceValue,
+      isNew,
     }=this.state;
 
     return (
@@ -156,6 +195,8 @@ class App extends Component {
           typeToFilter={typeToFilter}
           errorInFetch={errorInFetch}
           sortPriceValue={sortPriceValue}
+          handleSelectNew={this.handleSelectNew}
+          isNew={isNew}
         />
       </Fragment>
     );

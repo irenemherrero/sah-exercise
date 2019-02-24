@@ -6,7 +6,9 @@ class Filters extends Component {
             handleSelectPrice,
             sortPriceValue,
             handleSelectType,
-            typeToFilter
+            typeToFilter,
+            handleSelectNew,
+            isNew,
         } = this.props;
          
         return (
@@ -25,6 +27,12 @@ class Filters extends Component {
                             <option value="ascending" defaultChecked>Ascending</option>
                             <option value="descending">Descending</option>
                         </select>
+                    <h3 className="main__filters-subtitle">New property</h3>
+                        <select value={isNew} name="" id="" onChange={handleSelectNew}>
+                            <option value="" defaultChecked>All</option>
+                            <option value={true}>New</option>
+                            <option value={false}>Not new</option>
+                        </select> 
             </div>
         );
     }
