@@ -12,8 +12,6 @@ class Main extends Component {
             handleSelectType,
             typeToFilter,
             errorInFetch,
-            handleSelectNew,
-            isNew
         }=this.props;
 
         return (
@@ -23,8 +21,6 @@ class Main extends Component {
                     sortPriceValue={sortPriceValue}
                     handleSelectType={handleSelectType}
                     typeToFilter={typeToFilter}
-                    handleSelectNew={handleSelectNew}
-                    isNew={isNew}
                 />
                 {errorInFetch === false
                     ?   <HomeList
